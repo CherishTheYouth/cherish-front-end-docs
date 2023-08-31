@@ -1,3 +1,3 @@
 # CherishTheYouth
 
-I write my blogs here. Blows is the directory.
+I write my blogs here.
