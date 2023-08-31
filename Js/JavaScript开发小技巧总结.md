@@ -1,0 +1,1535 @@
+# 81条JavaScript编码小技巧 
+
+# 7个条件判断简化技巧
+
+## 1. 多条件检查
+
+把多个值放在一个数组中，然后调用数组的 includes 方法。
+
+```js
+//longhand
+if (x === 'abc' || x === 'def' || x === 'ghi' || x ==='jkl') {
+    //logic
+}
+//shorthand
+if (['abc', 'def', 'ghi', 'jkl'].includes(x)) {
+   //logic
+}
+```
+
+##  2. 简化 if true...else
+
+对于不包含大逻辑的 if-else 条件，可以使用下面的快捷写法。我们可以简单地使用三元运算符来实现这种简化。
+
+```js
+// Longhand
+let test: boolean;
+if (x > 100) {
+    test = true;
+} else {
+    test = false;
+}
+// Shorthand
+let test = (x > 10) ? true : false;
+//or we can use directly
+let test = x > 10;
+console.log(test);
+```
+
+如果有嵌套的条件，可以这么做。
+
+```js
+let x = 300,
+test2 = (x > 100) ? 'greater 100' : (x < 50) ? 'less 50' : 'between 50 and 100';
+console.log(test2); // "greater than 100"
+```
+
+## 3. if 判断值是否存在
+
+这是我们都在使用的一种常用的简便技巧，在这里仍然值得再提一下。
+
+```js
+// Longhand
+if (test1 === true) 
+   // or 
+if (test1 !== "") 
+   // or 
+if (test1 !== null)
+// Shorthand //it will check empty string,null and undefined too
+if (test1)
+```
+
+注意：如果 test1 有值，将执行 if 之后的逻辑，这个操作符主要用于 null 或 undefinded 检查。
+
+## 4. 用于多个条件判断的 && 操作符
+
+如果只在变量为 true 时才调用函数，可以使用 && 操作符。
+
+```js
+//Longhand 
+if (test1) {
+ callMethod(); 
+} 
+//Shorthand 
+test1 && callMethod();
+```
+
+##  5. 比较后返回
+
+我们也可以在 return 语句中使用比较，它可以将 5 行代码减少到 1 行。
+
+```js
+// Longhand
+let test;
+function checkReturn() {
+    if (!(test === undefined)) {
+        return test;
+    } else {
+        return callMe('test');
+    }
+}
+var data = checkReturn();
+console.log(data); //output test
+function callMe(val) {
+    console.log(val);
+}
+// Shorthand
+function checkReturn() {
+    return test || callMe('test');
+}
+```
+
+##  6. switch 简化
+
+我们可以将条件保存在键值对象中，并根据条件来调用它们。
+
+```js
+// Longhand
+switch (data) {
+  case 1:
+    test1();
+  break;
+  case 2:
+    test2();
+  break;
+  case 3:
+    test();
+  break;
+  // And so on...
+}
+// Shorthand
+var data = {
+  1: test1,
+  2: test2,
+  3: test
+};
+data[something] && data[something]();
+```
+
+## 7. 条件查找简化
+
+如果我们要基于不同的类型调用不同的方法，可以使用多个 else if 语句或 switch，但有没有比这更好的简化技巧呢？
+
+```js
+// Longhand
+if (type === 'test1') {
+  test1();
+}
+else if (type === 'test2') {
+  test2();
+}
+else if (type === 'test3') {
+  test3();
+}
+else if (type === 'test4') {
+  test4();
+} else {
+  throw new Error('Invalid value ' + type);
+}
+// Shorthand
+var types = {
+  test1: test1,
+  test2: test2,
+  test3: test3,
+  test4: test4
+};
+var func = types[type];
+(!func) && throw new Error('Invalid value ' + type); 
+func();
+```
+
+# 空值检查
+
+## 使用操作符 ||
+
+当我们创建了新变量，有时候想要检查引用的变量是不是为非 null 或 undefined。JavaScript 确实有一个很好的快捷方式来实现这种检查。
+
+```js
+// Longhand
+if (test1 !== null || test1 !== undefined || test1 !== '') {
+    let test2 = test1;
+}
+// Shorthand
+let test2 = test1 || '';
+```
+
+## 使用操作符 ??
+
+```js
+const test= null ?? 'default';
+console.log(test);
+// expected output: "default"
+const test1 = 0 ?? 2;
+console.log(test1);
+// expected output: 0
+```
+
+# 6个声明变量、变量赋值技巧
+
+##  1. 声明变量
+
+当我们想要声明两个具有相同的值或相同类型的变量时，可以使用这种简写。
+
+```js
+//Longhand 
+let test1;
+let test2 = 1;
+//Shorthand 
+let test1, test2 = 1;
+```
+
+## 2. 给多个变量赋值
+
+当我们想给多个不同的变量赋值时，这种技巧非常有用。
+
+```js
+//Longhand 
+let test1, test2, test3;
+test1 = 1;
+test2 = 2;
+test3 = 3;
+//Shorthand 
+let [test1, test2, test3] = [1, 2, 3];
+```
+
+## 3. 简便的赋值操作符
+
+在编程过程中，我们要处理大量的算术运算符。这是 JavaScript 变量赋值操作符的有用技巧之一。
+
+```js
+// Longhand
+test1 = test1 + 1;
+test2 = test2 - 1;
+test3 = test3 * 20;
+// Shorthand
+test1++;
+test2--;
+test3 *= 20;
+```
+
+##  4. 对象属性赋值
+
+键值和键名一致时，可以省略 ：键值
+
+```js
+let test1 = 'a'; 
+let test2 = 'b';
+//Longhand 
+let obj = {test1: test1, test2: test2}; 
+//Shorthand 
+let obj = {test1, test2};
+```
+
+## 5. 解构赋值
+
+```js
+//longhand
+const test1 = this.data.test1;
+const test2 = this.data.test2;
+const test2 = this.data.test3;
+//shorthand
+const { test1, test2, test3 } = this.data;
+```
+
+## 6. 在没有第三个变量的情况下交换两个变量
+
+使用解构从数组中提取值。这可以应用于在没有第三个的情况下交换两个变量。
+
+例如：
+
+```js
+let x = 1;
+let y = 2;
+// LONGER FORMlet 
+temp = x;
+x = y;
+y = temp;
+// SHORTHAND
+[x, y] = [y, x];
+```
+
+# 7个JavaScript字符串方法
+
+## **1. slice() 方法 > 截取字符串**
+
+slice() 方法是一个字符串方法，它允许我们复制和提取部分字符串。
+
+结果，它以新字符串形式返回提取的部分。你也可以将此方法用于数组。
+
+方法 slice() 接受两个参数：
+
+- 起始索引（要从其开始的字符索引）。
+- 结束索引（要结束的字符的索引）。
+
+下面是一个例子：
+
+```js
+const str = "JavaScript is Awesome";
+str.slice(0, 10); //returns "JavaScript"
+```
+
+在上面的例子中，我们使用了 slice 方法，并传递了两个参数来将字符串的一部分从指定的索引提取到另一个。
+
+如果需要，你也可以只传递一个参数。结果，它将从该索引参数中提取字符串，直到该字符串的最后一个索引。
+
+下面是一个例子：
+
+```js
+const str = "JavaScript is Awesome";
+str.slice(14); //returns "Awesome"
+str.slice(-7); //returns "Awesome"
+```
+
+如你所见，如果需要，你还可以传递负数，该方法将从字符串的末尾开始提取到开头。
+
+## **2. concat()方法 > 拼接字符串**
+
+concat() 方法允许将字符串连接和组合在一起。这就像使用一元运算符 + 进行字符串连接。
+
+下面是一个例子：
+
+```js
+const tool = "JavaScript";
+tool.concat(" is Awesome."); //returns "JavaScript is Awesome."
+tool.concat(" Hello", " World"); //returns "JavaScript Hello World"
+```
+
+如你所见，该方法返回一个新的连接字符串，如果需要，你可以将多个字符串传递给它。
+
+## **3. split() 方法 > 拆分字符串**
+
+JavaScript 中的 split() 方法允许我们将字符串拆分为数组。 它使我们能够在 JavaScript 中将字符串转换为数组。
+
+下面是一个例子：
+
+```js
+const str = "JavaScript is Awesome";
+//convert to an array of single characters.
+str.split("");
+// returns ["J", "a", "v", "a", "S", "c", "r", "i", "p", "t", " ", "i", "s", " ", "A", "w", "e", "s", "o", "m", "e"]
+//convert to an array of words.
+str.split(" "); //returns ["JavaScript", "is", "Awesome"]
+//get the first two words inside an array.
+str.split(" ", 2); //returns ["JavaScript", "is"]
+```
+
+如你所见，该方法最多可以接受两个参数，允许你按照自己的方式将字符串拆分为数组。
+
+##  **4. includes() 方法 > 包含字符串**
+
+ includes() 方法检查字符串是否包含作为方法参数传递的另一个特定字符串。 如果是，则返回 true 。 否则，它返回 false 。
+
+这是示例：
+
+```js
+const str = "JavaScript is Awesome";
+str.includes("JavaScript"); //returns true
+str.includes("Python"); //returns false
+```
+
+## **5. charCodeAt() 方法**
+
+charCodeAt()方法返回字符串中指定字符的 Unicode 编号。
+
+你只需将要获取其 Unicode 的字符的索引作为参数传递给该方法。
+
+下面是一个例子：
+
+```js
+const str = "JavaScript is Awesome";
+str.charCodeAt(0); //returns 74
+str.charCodeAt(2); //returns 118
+```
+
+如上所示，该方法返回指定字符的 Unicode 值。 当我们将 0 作为参数传递时，它返回字符串中第一个字母的 Unicode 值，即 Unicode 值为 74 的字母“J”。另一方面，当我们将 2 作为参数传递时，它返回 118，因为字母“v”的 Unicode 值为 118。
+
+## **6. fromCharCode()方法**
+
+fromCharCode() 方法允许我们将 Unicode 值转换为人类可以阅读的可读字符。 由于此方法是 String 对象的一部分，我们使用关键字 String 访问它。
+
+下面是一个例子：
+
+```js
+String.fromCharCode(77); //returns "M"
+String.fromCharCode(65); //returns "A"
+String.fromCharCode(74, 65, 118, 65); //returns "JAVA"
+```
+
+如果你想使用 JavaScript 将字符串从二进制转换为普通文本，则此方法非常有用。
+
+## **7. replaceAll()方法 > 替换字符串**
+
+replaceAll() 方法是 ES2020 的新方法。 它允许我们将参数传递的另一个特定字符串替换一个字符串的多个实例。
+
+我们可以使用普通字符串或全局正则表达式来替换所有实例。 你甚至可以传递一个函数来操作所有实例。
+
+replaceAll()方法接受两个参数：
+
+- 要替换的字符串的实例。
+- 将替换实例的字符串（你也可以传递普通字符串或函数）。
+
+下面是一个例子：
+
+```js
+const str = "Hello Hello JavaScript";
+str.replaceAll(/Hello/g, "Hi"); //returns "Hi Hi JavaScript"
+str.replaceAll("Hello", "Hi"); //returns "Hi Hi JavaScript"
+str.replaceAll("Hello", (i) => i + " World");
+//returns "Hello World Hello World JavaScript"
+```
+
+因此，该方法返回一个包含我们替换的所有新实例的新字符串。
+
+# 数组操作技巧
+
+## 1. 使用find 查找数组元素
+
+当我们有一个对象数组，并想根据对象属性找到特定对象，find 方法会非常有用。
+
+```js
+const data = [{
+        type: 'test1',
+        name: 'abc'
+    },
+    {
+        type: 'test2',
+        name: 'cde'
+    },
+    {
+        type: 'test1',
+        name: 'fgh'
+    },
+]
+function findtest1(name) {
+    for (let i = 0; i < data.length; ++i) {
+        if (data[i].type === 'test1' && data[i].name === name) {
+            return data[i];
+        }
+    }
+}
+//Shorthand
+filteredData = data.find(data => data.type === 'test1' && data.name === 'fgh');
+console.log(filteredData); // { type: 'test1', name: 'fgh' }
+```
+
+## 2. 快速调整大小和清空数组
+
+编程时我们经常需要更改或清空数组。执行此操作的最有效方法是使用Array.length方法。
+
+```js
+const array = [1,2,3,4,5]; 
+console.log（array）; // 5
+array.length--; 
+console.log（array）; // 4
+array.length + = 15; 
+console.log（array）; // 19
+```
+
+该代码段的输出为：
+
+```js
+[1, 2, 3, 4, 5]
+[1, 2, 3, 4]
+[1, 2, 3, 4, ..15 empty]
+```
+
+你还可以通过将长度设置为0来删除数组的所有元素。
+
+```js
+let arr= ['a', 'b', 'c'];
+arr.length = 0;
+console.log(arr.length); // Ouput=> 0
+console.log(arr); // Output=> []
+```
+
+## 3. 查找数组的最大值和最小值
+
+```js
+const arr = [1, 2, 3]; 
+Math.max(…arr); // 3
+Math.min(…arr); // 1
+```
+
+## 4. 从数组中删除重复项
+
+你可以通过将数组转换为集合，然后将集合中的值添加回数组来删除数组的重复项。
+
+这是有效的，因为集合是唯一的项目集合。
+
+换句话说，一个集合中不能有两个相同的值。因此，将数组转换为集合会删除引擎盖下的重复项。
+
+例如：
+
+```js
+const nums = [1,1,1,1,3,4,5]
+const uniqueNums = [...new Set(nums)];
+```
+
+这是实现其效果的另一种方法：
+
+```js
+const nums = [1,1,1,1,3,4,5]
+const uniqueNums = Array.from(new Set(nums))
+```
+
+## 5. 转换为数组
+
+这个简单的代码片段方法会将你的非数组值或数据转换为数组形式。
+
+```js
+const convertToArray = val => (Array.isArray(val) ? val : [val]);
+convertToArray("Pro") // [Pro] 
+convertToArray(101) // [101]
+```
+
+# 17个JavaScript 数组方法
+
+## **1、 Array.find()**
+
+使用.find()方法查找满足条件的数组的第一个元素。例如，让我们在汽车列表中找到第一辆经济实惠的汽车：
+
+```js
+const cars = [
+  {brand: "Porsche", price: 105000},
+  {brand: "BMW", price: 32000},
+  {brand: "Skoda", price: 15000},
+  {brand: "Toyota", price: 11500}
+];
+const affordableCar = cars.find(car => car.price <= 20000);
+console.log(affordableCar)
+```
+
+输出：
+
+```js
+{ 
+    brand:"Skoda",
+    price:15000
+}
+```
+
+## **2、Array.concat()**
+
+你可以使用.concat()方法将两个或多个数组合并在一起。例如：
+
+```js
+const nums1 = [1,2,3];
+const nums2 = [4,5,6];
+const merged = nums1.concat(nums2);
+console.log(merged);
+```
+
+## **3、 Array.findIndex（）**
+
+使用.findIndex()方法获取第一个满足条件的元素的索引。例如，让我们找到列表中的第一个数字 3：
+
+```js
+const nums = [1,2,3,3,3,2,1]
+const idx = nums.findIndex( num => num == 3 )
+console.log(idx)
+```
+
+输出：
+
+```
+2
+```
+
+如果不存在与条件匹配的此类元素，则该.findIndex()方法返回-1。
+
+## **4、Array.forEach()**
+
+这个超级好用，它可以让你摆脱有时可能合适的常规 for 循环。
+
+正如其名称.forEach()表明，它被用于执行一个动作的阵列的每个元件。例如，让我们打印数组的所有数字：
+
+```js
+const nums = [1, 2, 3];
+nums.forEach( num => console.log(num) );
+```
+
+输出：
+
+```js
+1 
+2
+3
+```
+
+## **5、 Array.join()**
+
+你可以使用该.join()方法连接一组字符串以形成一个新的字符串。
+
+例如，让我们将单词合并成一个句子。要形成一个句子，你需要用空格分隔每个单词。这可以通过将空格作为参数传递给.join()方法来完成：
+
+```js
+const words = ["This", "is", "a test"];
+const sentence = words.join(" "); // separate words by blank spaces
+console.log(sentence)
+```
+
+输出：
+
+```js
+This is a test
+```
+
+## **6、 Array.map（）**
+
+你可以使用.map()方法对每个元素执行一个操作（即运行一个函数）并将结果放入一个新数组中。
+
+例如，让我们将一个数字数组转换为一个新的平方数数组：
+
+```js
+const nums = [1,2,3,4,5];
+const squaredNums = nums.map( number => number * number );
+console.log(squaredNums);
+```
+
+输出：
+
+```
+[1, 4, 9, 16, 25]
+```
+
+## **7、Array.reduce()**
+
+该.reduce()方法通过为数组的每个元素执行一个函数并累加结果，将数组缩减为单个值。
+
+例如，让我们计算数组中数字的总和：
+
+```js
+const nums = [1,2,3,4,5,6];
+const numSum = nums.reduce((sum, num) => sum + num);
+console.log(numSum);
+```
+
+输出：
+
+```
+21
+```
+
+如果你不熟悉 reduce，让我们检查一下上面的代码。该.reduce()方法为你提供了两个值：
+
+- 第一个值是累积的“总”值。在这种情况下，它被称为sum。随着该.reduce()方法通过数字工作，该值逐渐增加。
+- 第二个值是 reduce 操作的当前元素。在这种情况下，它被称为num。
+- 简而言之，所有.reduce()要做的就是遍历数组的每个元素，并将每个值添加到 中sum以获得数字的总和。
+
+请注意，.reduce()可以选择采用初始值。例如，你可以出于某种原因开始计算以下数字的总和：
+
+```js
+const nums = [1,2,3,4,5,6];
+const numSum = nums.reduce((sum, num) => sum + num, 1000);
+console.log(numSum);
+```
+
+输出：
+
+```js
+1021
+```
+
+## **8、 Array.flat()**
+
+当你有一个多维数组时，你可以使用该.flat()方法将其展平。例如：
+
+```js
+const nums = [0，1，2，[3，4]];
+console.log(nums.flat());
+```
+
+输出：
+
+```js
+[0, 1, 2, 3, 4]
+```
+
+你还可以指定要将数组维度压缩到的深度。例如，让我们将这个 4 维数组展平为 2 维：
+
+```js
+const nums = [0, 1, 2, [[[[[3, 4]]]]]];
+console.log(nums.flat(2));
+```
+
+输出：
+
+```js
+[0，1，2，[3，4]]
+```
+
+## **9、Array.push()**
+
+使用.push()方法将新项目添加到数组中。例如：
+
+```js
+let nums = [1, 2, 3]
+nums.push(4)
+nums.push(5, 6)
+console.log(nums)
+```
+
+输出：
+
+```
+[1, 2, 3, 4, 5, 6]
+```
+
+## **10、 Array.pop()**
+
+使用方法删除并返回数组的最后一个元素.pop()。例如：
+
+```js
+let nums = [1, 2, 3, 4, 5, 6]
+const lastNum = nums.pop()
+console.log(`Removed ${lastNum}, now the numbers are ${nums}`)
+```
+
+输出：
+
+```
+Removed 6, now the numbers are 1,2,3,4,5
+```
+
+## **11、 Array.shift()**
+
+要删除数组的第一个元素，你可以使用 .shift() 方法。例如：
+
+```js
+const nums = [1, 2, 3, 4];
+const first = nums.shift();
+
+console.log(nums);
+console.log(first);
+```
+
+输出：
+
+```js
+[2, 3, 4] 
+1
+```
+
+## **12、 Array.unshift（）**
+
+该.unshift()方法将元素添加到数组的开头， 返回数组的新长度。例如：
+
+```js
+const nums = [1, 2, 3];
+nums.unshift(4, 5);
+console.log(nums);
+```
+
+输出：
+
+```
+[4, 5, 1, 2, 3]
+```
+
+## **13、 Array.filter()**
+
+顾名思义，你可以根据条件过滤数组的元素。结果，在过滤元素所在的位置创建了一个新数组。
+
+例如，让我们从数字列表中过滤所有偶数：
+
+```js
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const evenNums = nums.filter( num => num % 2 == 0);
+console.log(evenNums);
+```
+
+输出：
+
+```
+[2, 4, 6, 8, 10]
+```
+
+## **14、 Array.sort()**
+
+使用.sort() 按原始方法对字符串数组进行排序：
+
+```js
+const fruits = ["Banana", "Apple", "Clementine"]
+const sorted = fruits.sort()
+console.log(sorted)
+```
+
+输出：
+
+```js
+["Apple", "Banana", "Clementine"]
+```
+
+请注意，你不能只.sort()按原始对数字数组进行排序！相反，你必须为该.sort()方法提供一个比较函数，以便它知道如何对数字进行实际排序。
+
+例如，让我们按升序对数字列表进行排序：
+
+```js
+const nums = [1, 2, 3, 4]
+const sorted = nums.sort((a, b) => a - b)
+console.log(sorted)
+```
+
+## **15、 Array.reverse()**
+
+要反转数组，你可以简单地使用该.reverse()方法。举个例子：
+
+```js
+const nums = [1, 2, 3, 4]
+const reversed = nums.reverse()
+console.log(reversed)
+```
+
+输出：
+
+```js
+[4, 3, 2, 1]
+```
+
+## **16、Array.every()**
+
+你可以使用.every()方法来检查数组的每个元素是否都通过了条件。如果有，则该方法返回true，否则返回false。
+
+例如，让我们检查是否所有人都饿了：
+
+```js
+const moods = ["hungry", "hungry", "hungry"];
+const allHungry = moods.every(mood => mood === "hungry");
+console.log(allHungry);
+```
+
+输出：
+
+```js
+true
+```
+
+## **17、Array.some()**
+
+该.some()方法与前面的.every()方法类似。不同之处在于，如果数组中的一个或多个元素满足条件，则.some()返回true，false否则返回。
+
+例如，让我们检查是否所有人都饿了：
+
+```js
+const moods = ["hungry", "sleepy", "thirsty"];
+const someHungry = moods.some(mood => mood === "hungry");
+
+console.log(someHungry);
+```
+
+输出：
+
+```js
+true
+```
+
+# 4个JavaScript中的？操作符
+
+> 下文中的 nullish 代表 null 或者 undefined
+
+## 1. ?? 操作符
+
+在 JavaScript 中，`??` 操作符被称为`nullish` 合并操作符。如果第一个参数不是 `null/undefined`，这个运算符将返回第一个参数，否则，它将返回第二个参数。让我们看一个例子。
+
+```js
+null ?? 5 // => 5
+3 ?? 5 // => 3
+```
+
+当为一个变量分配默认值时，JavaScript 开发人员传统上依赖于逻辑 `OR` 操作符，如下所示。
+
+```js
+var prevMoney = 1
+var currMoney = 0
+var noAccount = null
+var futureMoney = -1
+
+function moneyAmount(money) {
+  return money || `You currently do not own an account in the bank`
+}
+
+console.log(moneyAmount(prevMoney)) // => 1
+console.log(moneyAmount(currMoney)) // => `You currently do not own an account in the bank`
+console.log(moneyAmount(noAccount)) // => `You currently do not own an account in the bank`
+console.log(moneyAmount(futureMoney))//  => -1
+```
+
+上面我们创建了一个函数 `moneyAmount`，负责返回用户的当前余额。**我们使用了 `||` 操作符来识别没有帐户的用户。当 money 为 0 或者 null 的时候都会返回在当前银行没有这个账户，但是实际上账户是可能为 0 的 。在上面的示例中， `||` 操作符将 0 视为假值，因此识别不出来我们的用户拥有一个 0 美元的帐户。** 让我们通过使用 nullish 合并操作符来解决这个问题。
+
+```js
+var currMoney = 0
+var noAccount = null
+
+function moneyAmount(money) {
+  return money ?? `You currently do not own an account in the bank`
+}
+ moneyAmount(currMoney) // => 0
+ moneyAmount(noAccount) // => `You currently do not own an account in the bank`
+```
+
+**总结： `??` 操作符允许我们分配默认值，同时忽略像 0 和空字符串这样的假值。**
+
+## 2. `??=` 操作符赋值
+
+`??=` 又称为逻辑 nullish 赋值操作符，与我们之前学到的内容密切相关。让我们看看它们是如何联系在一起的。
+
+```js
+var x = null
+var y = 5
+
+console.log(x ??= y) // => 5
+console.log(x = (x ?? y)) // => 5
+```
+
+只有当前值为 null 或 undefined 时，此赋值运算符才会分配新值。
+
+上面的例子强调了这个操作符如何实质上是 nullish 赋值的语法糖。
+
+接下来，让我们看看这个操作符与默认参数的区别。
+
+```js
+function gameSettingsWithNullish(options) {
+  options.gameSpeed ??= 1
+  options.gameDiff ??= 'easy'
+  return options
+}
+
+function gameSettingsWithDefaultParams(gameSpeed=1, gameDiff='easy') {
+  return {gameSpeed, gameDiff}
+}
+
+gameSettingsWithNullish({gameSpeed: null, gameDiff: null}) // => { gameSpeed: 1, gameDiff: 'easy' }
+gameSettingsWithDefaultParams(null, null) // => { gameSpeed: null, gameDiff: null }
+```
+
+上面的函数处理空值的方式有一个显著的不同。默认参数将使用 null 参数覆盖默认值，nullish 赋值操作符不会。默认参数和 nullish 赋值都不会覆盖未定义的值。
+
+## 3. `?.` 操作符
+
+可选的链接操作符 `?.` 允许开发人员读取深度嵌套在一个对象链中的属性值，而不必沿途显式验证每个引用。当引用为 null 时，表达式停止计算并返回 `undefined`，让我们来看一个例子。
+
+```js
+var travelPlans  = {
+  destination: 'DC',
+  monday: {
+    location: 'National Mall',
+    budget: 200
+  }
+};
+
+const tuesdayPlans = travelPlans.tuesday?.location;
+console.log(tuesdayPlans) // => undefined
+```
+
+现在，让我们把迄今为止所学到的一切结合起来，把星期二添加到我们的新旅行计划中去吧！
+
+```js
+function addPlansWhenUndefined(plans, location, budget) {
+  if (plans.tuesday?.location === undefined) {
+    var newPlans = {
+      plans,
+      tuesday: { location: location ?? "Park", budget: budget ?? 200 },
+    };
+  } else {
+    newPlans ??= plans; //will only override if newPlans is undefined
+    console.log("Plans have already been added!");
+  }
+  return newPlans;
+}
+
+var newPlans = addPlansWhenUndefined(travelPlans, "Ford Theatre", null);
+console.log(newPlans) // => { plans:
+                  //{ destination: 'DC',
+                  // monday: { location: 'National Mall', budget: 200 } },
+                  // tuesday: { location: 'Ford Theatre', budget: 200 } }
+
+newPlans = addPlansWhenUndefined(newPlans, null, null) // logs => Plans have already been added!
+                                                      // returns => newPlans object
+```
+
+我们现在已经创建了一个函数，该函数将计划添加到当前没有嵌套属性 `tuesday.location` 的对象中。我们还使用 nullish 操作符提供默认值。这个函数将接受错误的值，如“0”作为有效的参数。这意味着我们的预算可以设置为零，没有任何错误。
+
+## 4. `?` 操作符
+
+三元运算符 `?` 有三个操作数: 一个条件，一个条件为真时执行的表达式，以及一个条件为假时执行的表达式。让我们看看它是如何运作的。
+
+```js
+function checkCharge(charge) {
+return (charge > 0) ? 'Ready for use' : 'Needs to charge'
+}
+
+console.log(checkCharge(20)) // => 'Ready for use'
+console.log(checkCharge(0)) // => 'Needs to charge'
+```
+
+如果你花了一些时间研究 JavaScript，你可能以前见过三元运算符。然而，你知道三元运算符可以用于变量赋值吗？
+
+```js
+var budget = 0
+var transportion = (budget > 0) ? 'Train' : 'Walking'
+console.log(transportion) // => 'Walking'
+```
+
+我们甚至可以用它来复制 nullish 赋值的行为。
+
+```js
+var x = 6
+var x = (x !== null || x !== undefined) ? x : 3
+console.log(x) // => 6
+```
+
+现在让我们通过创建一个函数来泛化这种行为！
+
+```js
+function nullishAssignment(x,y) {
+  return (x == null || x == undefined) ? y : x
+}
+
+var x = nullishAssignment(null, 8) // => 8
+var y = nullishAssignment(4,8) // => 4
+```
+
+在结束之前，让我们使用三元运算符来重构前面示例中的函数。
+
+```js
+function addPlansWhenUndefined(plans, location, budget) {
+  var newPlans =
+    plans.tuesday?.location === undefined
+      ? {
+          ...plans,
+          tuesday: { location: location ?? "Park", budget: budget ?? 200 },
+        }
+      : console.log("Plans have already been added!");
+  newPlans ??= plans;
+  return newPlans;
+}
+```
+
+# 6个JavaScript对象操作方法
+
+## 1. Object.entries()
+
+这个方法可以将对象转换为对象数组。
+
+```js
+const data = { test1: 'abc', test2: 'cde', test3: 'efg' };
+const arr = Object.entries(data);
+console.log(arr);
+/** Output:
+[ [ 'test1', 'abc' ],
+  [ 'test2', 'cde' ],
+  [ 'test3', 'efg' ]
+]
+**/
+```
+
+## 2. Object.values()
+
+这也是 ES8 中引入的一个新特性，它的功能类似于 Object.entries()，只是没有键。
+
+```js
+const data = { test1: 'abc', test2: 'cde' };
+const arr = Object.values(data);
+console.log(arr);
+/** Output:
+[ 'abc', 'cde']
+**/
+```
+
+## 3. Object.keys()
+
+还记得那些痛苦的日子，你不得不手动迭代一个对象来获取它的键，然后执行一些乏味的逻辑......我只是想想就觉得累了。
+
+但是，幸运的是，我们有一个简洁的小方法，可以通过单行代码为我们解决问题：
+
+```js
+let cat = {
+  name: 'Jimmy boy',
+  age: 5,
+  breed: 'British Shorthair',
+  favorite_word: 'Meow',
+  favorite_food: 'Chimkens'
+}
+
+console.log(Object.keys(cat)); // [ 'name', 'age', 'breed', 'favorite_word', 'favorite_food' ]
+```
+
+Object.keys 返回一个数组，我们可以迭代它并使用这些键做任何我们需要做的事情。
+
+## **4. Object.freeze( )**
+
+该方法Object.freeze( )防止对象中的数据突变(锁定对象数据)。因此，你不能将Object.freeze( )作为参数传递给对象，更不能添加，更新或删除属性。
+
+看下面的例子：
+
+```js
+const employee = {
+  name: "James",
+  age: 25,
+  available: true
+}
+//Freezing the object.
+Object.freeze(employee);
+//updating and adding properties.
+employee.name = "Brad";
+employee.newProp = "Hard Worker";
+console.log(employee);
+//Output: {name: "James", age: 25, available: true}
+```
+
+如你所见，即使我们更新了属性，该对象也不会更改。
+
+## **5. Object.seal( )**
+
+该方法Object.seal( )有点类似于Object.freeze( )。它可以防止向对象添加新属性，但是可以更改和更新现有属性。
+
+```js
+const user = {
+  name: "Alex",
+  age: 23,
+  isOnline: false
+}
+//使用Object.seal（）
+Object.seal(user);
+//更新属性。
+user.isOnline = true;
+//添加一个属性。
+user.active = false;
+console.log(user);
+//输出：{名称：“ Alex”，年龄：23，isOnline：true}
+```
+
+该属性isOnline已更新，但是我们无法将该属性添加active到对象中，因为我们使用Object.seal( )它来防止这种情况的发生。
+
+## **6. Object.create( )**
+
+该方法Object.create()用于从另一个现有对象的原型创建一个新对象。
+
+看下面的例子：
+
+```js
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 25,
+  fullName(){
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+//新对象。
+let newObject = Object.create(user);
+//更新属性。
+newObject.firstName = "Mehdi";
+newObject.lastName = "Aoussiad";
+//我们也可以在此新对象中使用user的fullName方法。
+newObject.fullName();  //输出：Mehdi Aoussiad
+console.log(newObject);
+//输出：{firstName：“ Mehdi”，lastName：“ Aoussiad”}
+```
+
+在上面的示例中，我们用于Object.create()创建一个具有用户对象原型的新对象。这就是为什么我们能够更改属性并user在新对象中使用对象的方法的原因。如果你不想在对象中复制代码，这将非常有用。
+
+# 函数相关
+
+## 箭头函数
+
+```js
+//Longhand 
+function add(a, b) { 
+   return a + b; 
+} 
+//Shorthand 
+const add = (a, b) => a + b;
+```
+
+更多例子：
+
+```js
+function callMe(name) {
+  console.log('Hello', name);
+}
+callMe = name => console.log('Hello', name);
+```
+
+## 隐式返回
+
+通过使用箭头函数，我们可以直接返回值，不需要 return 语句。
+
+```js
+//longhand
+function calculate(diameter) {
+  return Math.PI * diameter
+}
+//shorthand
+calculate = diameter => (
+  Math.PI * diameter;
+)
+```
+
+##  简短的函数调用
+
+我们可以使用三元操作符来实现多个函数调用。
+
+```js
+// Longhand
+function test1() {
+  console.log('test1');
+};
+function test2() {
+  console.log('test2');
+};
+var test3 = 1;
+if (test3 == 1) {
+  test1();
+} else {
+  test2();
+}
+// Shorthand
+(test3 === 1? test1:test2)();
+```
+
+# for循环
+
+```js
+// 一个这个大的数组
+var array = []
+array.length = 10000000
+
+var array = []
+array.length = 10000000
+
+console.time('for++')
+for (let i = 0; i < array.length; i++) {
+    
+}
+console.timeEnd('for++') // 7.009033203125 ms
+
+console.time('for--')
+for (let i = array.length; i > 0; i--) {
+    
+}
+console.timeEnd('for--') // 6.798828125 ms
+
+console.time('forEach')
+array.forEach(function () {
+
+})
+
+console.timeEnd('forEach') // 25.0791015625 ms
+
+console.time('forOf')
+for (let i of array) {
+    
+}
+
+console.timeEnd('forOf') // 174.65478515625 ms
+```
+
+## 正序常规for循环
+
+```js
+for (let i = 0; i < array.length; i++) {
+    
+}
+```
+
+
+
+## 倒叙常规for循环
+
+```js
+for (let i = array.length; i > 0; i--) {
+    
+}
+```
+
+## forEach
+
+```js
+array.forEach(function () {
+
+})
+```
+
+## for ... of ...
+
+for...of是在ES6（ECMAScript中6）中实现标准化的。它会基于一个可迭代对象，比如array，map，set，string等创建一个循环，并且拥有更优秀的可读性。
+
+```js
+for (const i of array) {
+    
+}
+```
+
+## for ... in...
+
+在for...in对象的所有可以列举出来的属性上迭代指定的变量。对于每个不同的属性，for...in语句除返回数字索引外，还将返回用户定义的属性的名称。
+
+```js
+for (const i in array) {
+    
+}
+```
+
+for..of和for...in之间的主要区别是它们迭代的内容。上面所说的for...in环路迭代的是对象的属性，而for...of循环遍历一个迭代对象的值。
+
+# 其他
+
+## 指数表示法
+
+```js
+// Longhand
+for (var i = 0; i < 10000; i++) { ... }
+// Shorthand
+for (var i = 0; i < 1e4; i++) {
+```
+
+##  默认参数值
+
+```js
+//Longhand
+function add(test1, test2) {
+  if (test1 === undefined)
+    test1 = 1;
+  if (test2 === undefined)
+    test2 = 2;
+  return test1 + test2;
+}
+//shorthand
+add = (test1 = 1, test2 = 2) => (test1 + test2);
+
+funcion throwException () {
+    console.error('xxx is required')
+}
+add = (test = throwException, test2 ) => (test1 + test2)
+add() //output: 3
+```
+
+## 模板字面量
+
+如果你厌倦了使用 + 将多个变量连接成一个字符串，那么这个简化技巧将让你不再头痛。
+
+```js
+//longhand
+const welcome = 'Hi ' + test1 + ' ' + test2 + '.'
+//shorthand
+const welcome = `Hi ${test1} ${test2}`;
+```
+
+##  跨行字符串
+
+当我们在代码中处理跨行字符串时，可以这样做。
+
+```js
+//longhand
+const data = 'abc abc abc abc abc abc\n\t'
+    + 'test test,test test test test\n\t'
+//shorthand
+const data = `abc abc abc abc abc abc
+         test test,test test test test`
+```
+
+## 将字符串转成数字
+
+```js
+//Longhand 
+let test1 = parseInt('123'); 
+let test2 = parseFloat('12.3'); 
+//Shorthand 
+let test1 = +'123'; 
+let test2 = +'12.3';
+```
+
+##  indexOf 的按位操作简化
+
+在查找数组的某个值时，我们可以使用 indexOf() 方法。但有一种更好的方法，让我们来看一下这个例子。
+
+```js
+//longhand
+if(arr.indexOf(item) > -1) { // item found 
+}
+if(arr.indexOf(item) === -1) { // item not found
+}
+//shorthand
+if(~arr.indexOf(item)) { // item found
+}
+if(!~arr.indexOf(item)) { // item not found
+}
+```
+
+按位 (~) 运算符将返回 true（-1 除外），反向操作只需要!~。另外，也可以使用 include() 函数。
+
+```js
+if (arr.includes(item)) { 
+// true if the item found
+}
+```
+
+## 双重按位操作/Math.floor() 简写
+
+`Math.floor()`  返回小于或等于一个给定数字的最大整数(向下取整)
+
+```js
+// Longhand
+Math.floor(1.9) === 1 // true
+// Shorthand
+~~1.9 === 1 // true
+```
+
+## 重复字符串多次
+
+为了重复操作相同的字符，我们可以使用 for 循环，但其实还有一种简便的方法。
+
+```js
+//longhand 
+let test = ''; 
+for(let i = 0; i < 5; i ++) { 
+  test += 'test '; 
+} 
+console.log(str); // test test test test test 
+//shorthand 
+'test '.repeat(5);
+```
+
+##  获取字符串的字符
+
+```js
+let str = 'abc';
+//Longhand 
+str.charAt(2); // c
+//Shorthand 
+str[2]; // c
+```
+
+## 指数幂简化/ Math.pow() 简写
+
+```js
+//longhand
+Math.pow(2,3); // 8
+//shorthand
+2**3 // 8
+```
+
+## !!将任何值转换为布尔值
+
+在 JavaScript 中，你可以将任何内容转换为布尔值。这是因为，在底层，JavaScript 中的一切要么是“True”，要么是“False”。
+
+要将任何内容转换为布尔值，请使用双感叹号 !!。
+
+例如：
+
+```js
+
+!!true    // true
+!!2       // true
+!![]      // true
+!!"Test"  // true
+
+!!false   // false
+!!0       // false
+!!""      // false
+```
+
+## 字节大小
+
+此代码段将显示你的字符串或整数的字节大小。简单来说，它会显示字符串或整数的长度。
+
+```js
+const byteSize1 = str => new Blob([str]).size; 
+const byteSize2 = int => new Blob([int]).size;
+byteSize1("JavaScript") // 10 
+byteSize2(101) // 3
+```
+
+## 大写
+
+此代码段方法将以大写形式转换字符串中字符的每个第一个字母。检查下面的代码以了解它是如何工作的。
+
+```js
+const capitalize = str => 
+	str.replace(/\b[a-z]/g, char => char.toUpperCase());
+capitalize('code'); //Code
+capitalize('javascript programming'); //Javascript Programming
+```
+
+## **数字化**
+
+这个是很棒的片段，它会将你的数字转换为数字数组。查看下面的代码示例。
+
+```js
+
+const digitize = n => [...`${n}`].map(i => parseInt(i));
+digitize(345) // [3,4,5] 
+digitize(123) // [1,2,3] 
+digitize(6) // [6]
+```
+
+## **isUpper Case**
+
+当你想检查 String 是否为大写时，此片段代码将很有用。
+
+```js
+const isUpperCase = str => str === str.toUpperCase();
+isUpperCase("Code") //false 
+isUpperCase("PROGRAMMING") //true 
+isUpperCase("aB") //false
+```
+
+## **isLower Case**
+
+我们看到的这个大写片段代码将检查字符串是否为小写。
+
+```js
+const isLowerCase = str => str === str.toLowerCase();
+isLowerCase("code") //true 
+isLowerCase("PROGRAMMING") //false
+```
+
+## **范围生成器中的整数数组**
+
+这段代码将向你展示如何生成一个带有n数字且在一个范围内的随机整数数组。检查下面的代码以了解它是如何工作的。
+
+```js
+const randomIntArrayInRange = (min, max, n = 1) => 
+	Array.from({ length: n }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+console.log(randomIntArrayInRange(10, 15, 5)); // [ 14, 11, 15, 10, 13 ]
+```
+
+## **范围生成器中的随机整数**
+
+此片段代码用于生成给定范围内的随机整数。
+
+```js
+const randomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+console.log(randomInteger(1,10)) // 6 
+console.log(randomInteger(1,20)) // 8
+```
+
+## **从列表中删除 False 元素**
+
+此代码段方法将从列表中删除 false 元素，如 null、false、0 或空元素。
+
+```js
+const compactJs = arr => arr.filter(Boolean);
+compactJs([2,4,false,NaN,5,"",0]) //[2,4,5]
+```
